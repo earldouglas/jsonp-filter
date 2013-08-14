@@ -3,21 +3,11 @@
 Include jsonp-filter in your *pom.xml*:
 
 ```xml
-<repositories>
-  <repository>
-    <id>wicketstuff-core-snapshots</id>
-    <url>https://oss.sonatype.org/content/repositories/snapshots</url>
-    <snapshots>
-      <enabled>true</enabled>
-    </snapshots>    
-  </repository>
-</repositories>
-
 <dependencies>
   <dependency>
     <groupId>com.earldouglas</groupId>
     <artifactId>jsonp-filter</artifactId>
-    <version>1.0.0-SNAPSHOT</version>
+    <version>1.0.0</version>
   </dependency>
 </dependencies>
 ```
