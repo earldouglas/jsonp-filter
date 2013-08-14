@@ -10,7 +10,7 @@ import org.junit.BeforeClass;
 public class ServerRunner {
 
     static Server server;
-    static final int PORT = 8080;
+    static final int PORT = 9898;
 
     @BeforeClass public static void startWebapp() throws Exception {
         server = new Server();
