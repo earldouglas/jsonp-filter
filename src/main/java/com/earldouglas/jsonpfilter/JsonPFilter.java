@@ -22,6 +22,13 @@ public class JsonPFilter implements Filter {
     private String callbackParam = "callback";
     private String variableParam = "variable";
 
+    public JsonPFilter() {}
+
+    public JsonPFilter(String callbackParam, String variableParam) {
+        this.callbackParam = callbackParam;
+        this.variableParam = variableParam;
+    }
+
     @Override public void init(FilterConfig config) throws ServletException {
         String _callbackParam = config.getInitParameter("callbackParam");
         if (_callbackParam != null) {
@@ -63,6 +70,14 @@ public class JsonPFilter implements Filter {
         } else {
             chain.doFilter(req, res);
         }
+    }
+
+    public void setCallbackParam(String callbackParam) {
+        this.callbackParam = callbackParam;
+    }
+
+    public void setVariableParam(String variableParam) {
+        this.variableParam = variableParam;
     }
 
     private static class JsonPResponseWrapper extends HttpServletResponseWrapper {
