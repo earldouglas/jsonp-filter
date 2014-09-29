@@ -47,3 +47,15 @@ Optionally configure the callback parameter name (defaults to *callback*) and th
 ```
 
 Now any requests to */foo* with the *callback* query parameter set will have their responses wrapped in *callback(...)*. All responses with the query parameter *variable* set will be like *var variable = ...;*. In the second case, responses will be wrapped in *calleybackey(...)* or set to *var custom = ...;*.
+
+## Java config
+
+If you do not use a `web.xml` config file and want to instantiate the filter manually, you can use:
+
+    JSsonPFilter filter = new JsonPFilter();
+    filter.setCallbackParam("customCallback");
+    filter.setVariableParam("customVariable");
+
+Or:
+
+    JsonPFilter filter = new JsonPFilter("customCallback", "customVariable");
