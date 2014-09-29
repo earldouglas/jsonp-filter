@@ -27,7 +27,7 @@ Add a `JsonPFilter` to your *web.xml*:
 </filter-mapping>
 ```
 
-Optionally configure the callback parameter name (defaults to *callback*):
+Optionally configure the callback parameter name (defaults to *callback*) and the variable parameter name (defaults to *variable*):
 
 ```xml
 <filter>
@@ -37,6 +37,10 @@ Optionally configure the callback parameter name (defaults to *callback*):
     <param-name>callbackParam</param-name>
     <param-value>calleybackey</param-value>
   </init-param>
+  <init-param>
+    <param-name>variableParam</param-name>
+    <param-value>custom</param-value>
+  </init-param>
 </filter>
 <filter-mapping>
   <filter-name>jsonp-filter</filter-name>
@@ -44,4 +48,16 @@ Optionally configure the callback parameter name (defaults to *callback*):
 </filter-mapping>
 ```
 
-Now any requests to */foo* will have their responses wrapped in *callback(...)*.  In the second case, responses will be wrapped in *calleybackey(...)*.
+Now any requests to */foo* with the *callback* query parameter set will have their responses wrapped in *callback(...)*. All responses with the query parameter *variable* set will be like *var variable = ...;*. In the second case, responses will be wrapped in *calleybackey(...)* or set to *var custom = ...;*.
+
+## Java config
+
+If you do not use a `web.xml` config file and want to instantiate the filter manually, you can use:
+
+    JSsonPFilter filter = new JsonPFilter();
+    filter.setCallbackParam("customCallback");
+    filter.setVariableParam("customVariable");
+
+Or:
+
+    JsonPFilter filter = new JsonPFilter("customCallback", "customVariable");

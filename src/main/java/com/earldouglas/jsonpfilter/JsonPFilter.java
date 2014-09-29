@@ -20,11 +20,24 @@ import javax.servlet.http.HttpServletResponseWrapper;
 public class JsonPFilter implements Filter {
 
     private String callbackParam = "callback";
+    private String variableParam = "variable";
+
+    public JsonPFilter() {}
+
+    public JsonPFilter(String callbackParam, String variableParam) {
+        this.callbackParam = callbackParam;
+        this.variableParam = variableParam;
+    }
 
     @Override public void init(FilterConfig config) throws ServletException {
         String _callbackParam = config.getInitParameter("callbackParam");
         if (_callbackParam != null) {
             callbackParam = _callbackParam.replaceAll("[\r\n\\s]", "");
+        }
+
+        String _variableParam = config.getInitParameter("variableParam");
+        if (_variableParam != null) {
+            variableParam = _variableParam.replaceAll("[\r\n\\s]", "");
         }
     }
 
@@ -32,10 +45,12 @@ public class JsonPFilter implements Filter {
 
     @Override public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain) throws IOException, ServletException {
         String callback = null;
+        String variable = null;
 
         if (req instanceof HttpServletRequest) {
             HttpServletRequest hreq = (HttpServletRequest) req;
             callback = hreq.getParameter(callbackParam);
+            variable = hreq.getParameter(variableParam);
         }
 
         if (callback != null) {
@@ -45,9 +60,24 @@ public class JsonPFilter implements Filter {
             out.write(new JsonPResponseWrapper((HttpServletResponse) res).getData());
             out.write(new String(")").getBytes());
             out.close();
+        } else if (variable != null) {
+            OutputStream out = res.getOutputStream();
+            out.write((variable + " = ").getBytes());
+            chain.doFilter(req, res);
+            out.write(new JsonPResponseWrapper((HttpServletResponse) res).getData());
+            out.write(";".getBytes());
+            out.close();
         } else {
             chain.doFilter(req, res);
         }
+    }
+
+    public void setCallbackParam(String callbackParam) {
+        this.callbackParam = callbackParam;
+    }
+
+    public void setVariableParam(String variableParam) {
+        this.variableParam = variableParam;
     }
 
     private static class JsonPResponseWrapper extends HttpServletResponseWrapper {
