@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/earldouglas/jsonp-filter.svg?branch=travis-ci)](https://travis-ci.org/earldouglas/jsonp-filter)
+
 ## Usage
 
 Include jsonp-filter in your *pom.xml*:
