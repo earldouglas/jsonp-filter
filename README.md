@@ -54,10 +54,14 @@ Now any requests to */foo* with the *callback* query parameter set will have the
 
 If you do not use a `web.xml` config file and want to instantiate the filter manually, you can use:
 
-    JSsonPFilter filter = new JsonPFilter();
-    filter.setCallbackParam("customCallback");
-    filter.setVariableParam("customVariable");
+```java
+JSsonPFilter filter = new JsonPFilter();
+filter.setCallbackParam("customCallback");
+filter.setVariableParam("customVariable");
+```
 
 Or:
 
-    JsonPFilter filter = new JsonPFilter("customCallback", "customVariable");
+```java
+JsonPFilter filter = new JsonPFilter("customCallback", "customVariable");
+```
