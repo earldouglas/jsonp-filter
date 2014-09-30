@@ -9,7 +9,7 @@ Include jsonp-filter in your *pom.xml*:
   <dependency>
     <groupId>com.earldouglas</groupId>
     <artifactId>jsonp-filter</artifactId>
-    <version>1.0.0</version>
+    <version>1.1.0</version>
   </dependency>
 </dependencies>
 ```
