@@ -54,22 +54,27 @@ public class JsonPFilter implements Filter {
         }
 
         if (callback != null) {
-            OutputStream out = res.getOutputStream();
-            out.write(new String(callback + "(").getBytes());
-            chain.doFilter(req, res);
-            out.write(new JsonPResponseWrapper((HttpServletResponse) res).getData());
-            out.write(new String(")").getBytes());
-            out.close();
+            addBeforeAndAfterContent(req,res,chain, callback+"(",")");            
         } else if (variable != null) {
-            OutputStream out = res.getOutputStream();
-            out.write((variable + " = ").getBytes());
-            chain.doFilter(req, res);
-            out.write(new JsonPResponseWrapper((HttpServletResponse) res).getData());
-            out.write(";".getBytes());
-            out.close();
+            addBeforeAndAfterContent(req,res,chain, variable + " = ",";");
         } else {
             chain.doFilter(req, res);
         }
+    }
+
+    public void addBeforeAndAfterContent(ServletRequest req, ServletResponse res, FilterChain chain, String before,String after) throws IOException, ServletException {
+        
+        JsonPResponseWrapper wrapper = new JsonPResponseWrapper((HttpServletResponse) res);
+        chain.doFilter(req, wrapper);
+        byte [] jsonpResponse = new StringBuilder()
+        .append(before)
+        .append(new String( wrapper.getData()))
+        .append(after).toString().getBytes();
+        wrapper.setContentLength(jsonpResponse.length);
+        OutputStream out = res.getOutputStream();
+        out.write(jsonpResponse);
+        out.close();
+        
     }
 
     public void setCallbackParam(String callbackParam) {
